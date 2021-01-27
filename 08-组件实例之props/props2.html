@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      class Person extends React.Component {
+        render() {
+          const { name, sex, age } = this.props
+          return (
+            <ul>
+              <li>姓名：{name}</li>
+              <li>姓名：{sex}</li>
+              <li>姓名：{age + 1}</li>
+            </ul>
+          )
+        }
+      }
+
+      Person.propTypes = {
+        // 在React 15的时候，React身上一直维护着PropTypes这个属性, 但是在React16以后就不维护了。
+        // 在React16版本以后使用单独prop-types这个包来维护PropTypes。
+        // name: React.PropTypes.string
+        name: PropTypes.string.isRequired,
+        sex: PropTypes.string,
+        age: PropTypes.number,
+        speak: PropTypes.func
+      }
+      Person.defaultProps = {
+        sex: '男',
+        age: 18
+      }
+
+      const p = { name: 'tom', sex: '女', age: 12 }
+
+      ReactDOM.render(<Person {...p} />, document.getElementById('root'))
+      ReactDOM.render(
+        <Person name="jerry" sex="男" age={19} speak={speak} />,
+        document.getElementById('root1')
+      )
+      ReactDOM.render(<Person name="jerry" age={21} />, document.getElementById('root2'))
+
+      function speak() {
+        console.log('a')
+      }
+    </script>
+  </body>
+</html>

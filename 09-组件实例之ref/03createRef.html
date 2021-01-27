@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      class TestRef extends React.Component {
+        /*
+            React.createRef调用后可以返回一个容器， 该容器可以存储被ref所标识的节点，该容器时专人专用的，也就是一个容器只能放一个ref。
+          */
+        myRef = React.createRef()
+        myRef1 = React.createRef()
+        showData() {
+          const input = this.myRef.current
+          alert(input.value)
+        }
+        handelBlur() {
+          const input1 = this.myRef1.current
+          alert(input1.value)
+        }
+
+        render() {
+          return (
+            <div>
+              <input ref={this.myRef} type="text" />
+              <button onClick={() => this.showData()}>点击提示左侧数据</button>
+              <input ref={this.myRef1} type="text" onBlur={() => this.handelBlur()} />
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(<TestRef name="张三" />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

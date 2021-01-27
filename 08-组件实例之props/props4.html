@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      class Person extends React.Component {
+        /*
+            如果在类中定义了构造器，而且使用将props传递给了super，那么就可以在constructor中获取到正确this.props。 但是如果没有将props传递给了super， 此时的this.props是undefined
+          */
+        // 在开发中我们根本不会写构造器，能不写就不写，
+        constructor(props) {
+          super(props)
+          console.log('constructor', this.props)
+        }
+        render() {
+          const { name, sex, age } = this.props
+          return (
+            <ul>
+              <li>姓名：{name}</li>
+              <li>姓名：{sex}</li>
+              <li>姓名：{age + 1}</li>
+            </ul>
+          )
+        }
+
+        static propTypes = {
+          name: PropTypes.string.isRequired,
+          sex: PropTypes.string,
+          age: PropTypes.number
+        }
+        static defaultProps = {
+          sex: '男',
+          age: 18
+        }
+      }
+
+      ReactDOM.render(<Person name="jerry" age={21} />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

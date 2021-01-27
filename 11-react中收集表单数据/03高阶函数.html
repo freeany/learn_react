@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      class TestRef extends React.Component {
+        /*
+         高阶函数: 如果一个函数符合下面2个规范中的任何一个，那么该函数就是高阶函数
+            1. 若A函数，接收的参数是一个函数，那么A就可以称之为高阶函数
+            2. 若A函数， 调用的返回值仍然是一个函数，那么A就可以称之为高阶函数
+
+         函数的柯里化： 通过函数调用继续返回函数的方式，实现多次接收参数最终统一处理的函数编码形式
+        */
+        state = { username: '', password: '' }
+        handleSubmit(e) {
+          e.preventDefault()
+          const { username, password } = this.state
+          alert('用户名是： ' + username + '密码是: ' + password)
+        }
+        // usernameChange(e) {
+        //   this.setState({
+        //     username: e.target.value
+        //   })
+        // }
+        // passwordChange(e) {
+        //   this.setState({
+        //     password: e.target.value
+        //   })
+        // }
+        // saveFormData(e, name) {
+        //   this.setState({
+        //     [name]: e.target.value
+        //   })
+        // }
+        saveFormData = name => {
+          // onChange真正调用还是这个返回的函数
+          return e => {
+            this.setState({
+              [name]: e.target.value
+            })
+          }
+        }
+        render() {
+          const { username, password } = this.state
+          return (
+            <form action="#" onSubmit={e => this.handleSubmit(e)}>
+              {/* 用户名： <input onChange={e => this.saveFormData(e, 'username')} type="text" /> */}
+              {/* 密码： <input onChange={e => this.saveFormData(e, 'password')} type="text" /> */}
+              用户名： <input onChange={this.saveFormData('username')} type="text" />
+              密码： <input onChange={this.saveFormData('password')} type="text" />
+              <button type="submit">点击提示左侧数据</button>
+            </form>
+          )
+        }
+      }
+
+      ReactDOM.render(<TestRef name="张三" />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

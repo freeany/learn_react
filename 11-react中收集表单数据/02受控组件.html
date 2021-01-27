@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      class TestRef extends React.Component {
+        /*
+            页面中所有输入类的dom(input/checkbox/radio)，随着你的输入把你输入的内容维护到状态state中，当用的时候从state中取，也就是进行双向绑定后的表单组件就是受控组件
+
+            受控组件的优势就是 避免了过多的使用ref。官方建议我们不要过多的使用ref，会造成效率问题  
+        */
+        state = { username: '', password: '' }
+        handleSubmit(e) {
+          e.preventDefault()
+          const { username, password } = this.state
+          alert('用户名是： ' + username + '密码是: ' + password)
+        }
+        usernameChange(e) {
+          this.setState({
+            username: e.target.value
+          })
+        }
+        passwordChange(e) {
+          this.setState({
+            password: e.target.value
+          })
+        }
+        render() {
+          const { username, password } = this.state
+          return (
+            <form action="#" onSubmit={e => this.handleSubmit(e)}>
+              用户名： <input onChange={e => this.usernameChange(e)} type="text" />
+              密码： <input onChange={e => this.passwordChange(e)} type="text" />
+              <button type="submit">点击提示左侧数据</button>
+            </form>
+          )
+        }
+      }
+
+      ReactDOM.render(<TestRef name="张三" />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

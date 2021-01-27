@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script type="text/babel">
+      class MyComponent extends React.Component {
+        render() {
+          // render是放在哪里的？ --- MyComponentM的原型对象上。供实例使用
+          // render中的this是谁？ --- react内部new 的MyComponent的实例对象。
+          console.log(this)
+          return <h2>我是class定义的组件(适用于【复杂组件的定义】)</h2>
+        }
+      }
+      ReactDOM.render(<MyComponent />, document.getElementById('root'))
+      /*
+        执行了ReactDOM.render(<Fn />, ...) 发生的事情
+        1. react解析组件标签， 找到了MyComponent组件
+        2. 发现组件是使用类定义的，随后new出该类的实例，并通过该实例调用原型上的render方法。
+        3. 将render返回的虚拟dom转为真实dom，随后呈现在页面中。
+        */
+    </script>
+  </body>
+</html>

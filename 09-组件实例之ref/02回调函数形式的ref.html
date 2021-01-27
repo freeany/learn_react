@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      /*
+        字符串形式的ref官方已经不推荐使用了， 因为字符串形式的ref使用多了会有效率问题
+        所谓回调函数
+            1. 你定义的
+            2. 你没调用
+            3. 但是这个函数执行了
+      */
+      class TestRef extends React.Component {
+        state = { isHot: false }
+        showData() {
+          // 拿到的是真实dom
+          const input1 = this.input1
+          alert(input1.value)
+        }
+        handelBlur() {
+          const input2 = this.input2
+
+          alert(input2.value)
+        }
+        saveInputDom = c => {
+          // 页面被render的时候不触发此函数了
+          console.log(c)
+          this.input2 = c
+        }
+        render() {
+          const { isHot } = this.state
+          return (
+            <div>
+              <h1>今天的添加{isHot ? '炎热' : '凉爽'}</h1>
+              <div>
+                <button onClick={() => this.setState({ isHot: !isHot })}>改变天气</button>
+              </div>
+              {/* 这个回调react会自行执行，回调的参数代表当前ref所在的节点, 此函数为内联函数， 如果页面更新(不是第一次初始化页面触发的render)以后该内联函数会被触发两次，第一次是的currentNode是null，第二次是当前dom元素 */}
+              <input
+                ref={currentNode => {
+                  this.input1 = currentNode
+                  console.log('@', currentNode)
+                }}
+                type="text"
+              />
+              <button onClick={() => this.showData()}>点击提示左侧数据</button>
+              {/* 不用内联函数 */}
+              <input ref={this.saveInputDom} type="text" onBlur={() => this.handelBlur()} />
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(<TestRef name="张三" />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

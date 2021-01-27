@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      class TestRef extends React.Component {
+        showData() {
+          // 拿到的是真实dom
+          const { input1 } = this.refs
+          alert(input1.value)
+        }
+        handelBlur() {
+          const { input2 } = this.refs
+          alert(input2.value)
+        }
+        render() {
+          return (
+            <div>
+              <input ref="input1" type="text" />
+              <button onClick={() => this.showData()}>点击提示左侧数据</button>
+              <input ref="input2" type="text" onBlur={() => this.handelBlur()} />
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(<TestRef name="张三" />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

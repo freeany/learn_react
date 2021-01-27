@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script type="text/babel">
+      const obj = { name1: 'angular', name2: 'react', name3: 'vue' }
+      const obj2 = [
+        { name: 'angular', id: 1 },
+        { name: 'react', id: 2 },
+        { name: 'vue', id: 3 }
+      ]
+      const arr = ['angular', 'react', 'vue']
+      const vdom = (
+        <div>
+          <h1>前端js框架列表</h1>
+          {/* Objects are not valid as a React child */}
+          {/* <ul>{obj}</ul> */}
+          <ul>
+            {arr.map(item => (
+              <li key={item}>{item}</li>
+            ))}
+          </ul>
+        </div>
+      )
+      ReactDOM.render(vdom, document.getElementById('root'))
+      /*
+        1. object类型不能作为react的节点, 即使数组中套对象[{}] 这种的结构也不行。
+        2. 数组可以直接作为react的节点， react会帮你自动遍历
+      */
+    </script>
+  </body>
+</html>

@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script type="text/babel">
+      class Weather extends React.Component {
+        // 因为state是一个固定的数据，而不是我们通过构造函数传递过来的数据，所以可以直接在class类中写赋值语句去精简代码
+        // constructor(props) {
+        //   super(props)
+        //   this.state = { isHot: false, wind: '微风' }
+        //   console.log(this)
+        // }
+        // 下面的代码的含义是 给car的实例对象添加一个属性，名为state，值为 { isHot: false, wind: '微风' }
+        state = { isHot: false, wind: '微风' }
+        render() {
+          const { isHot, wind } = this.state
+          return (
+            <h1 onClick={this.changeWeather}>
+              今天的天气有些{isHot ? '颜色' : '凉爽'}, 而且还有些{wind}
+            </h1>
+          )
+        }
+        // 将changeWeather函数放到了该实例上, 以前是放到了原型链上.
+        changeWeather = () => {
+          this.setState({
+            isHot: !this.state.isHot
+          })
+        }
+      }
+
+      ReactDOM.render(<Weather />, document.getElementById('root'))
+    </script>
+  </body>
+</html>

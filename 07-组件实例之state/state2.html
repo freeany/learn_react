@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script type="text/babel">
+      class Weather extends React.Component {
+        constructor(props) {
+          super(props)
+          this.state = { isHot: false, wind: '微风' }
+          this.changeWeather = this.changeWeather.bind(this)
+        }
+        render() {
+          const { isHot, wind } = this.state
+          return (
+            <h1 onClick={this.changeWeather}>
+              今天的天气有些{isHot ? '颜色' : '凉爽'}, 而且还有些{wind}
+            </h1>
+          )
+        }
+        changeWeather() {
+          this.setState({
+            isHot: !this.state.isHot
+          })
+        }
+      }
+
+      ReactDOM.render(<Weather />, document.getElementById('root'))
+    </script>
+  </body>
+</html>

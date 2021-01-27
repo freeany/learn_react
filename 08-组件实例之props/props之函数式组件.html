@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      //   class Person extends React.Component {
+      //     render() {
+      //       const { name, sex, age } = this.props
+      //       return (
+      //         <ul>
+      //           <li>姓名：{name}</li>
+      //           <li>姓名：{sex}</li>
+      //           <li>姓名：{age + 1}</li>
+      //         </ul>
+      //       )
+      //     }
+
+      //     static propTypes = {
+      //       name: PropTypes.string.isRequired,
+      //       sex: PropTypes.string,
+      //       age: PropTypes.number
+      //     }
+      //     static defaultProps = {
+      //       sex: '男',
+      //       age: 18
+      //     }
+      //   }
+
+      function Person(props) {
+        // 函数式组件没有this，但是也可以玩组件实例三大属性之一的props， 因为可以通过函数接收
+        const { name, sex, age } = props
+        return (
+          <ul>
+            <li>姓名：{name}</li>
+            <li>姓名：{sex}</li>
+            <li>姓名：{age + 1}</li>
+          </ul>
+        )
+      }
+
+      // 对函数式组件的props进行限制
+      Person.propTypes = {
+        name: PropTypes.string.isRequired,
+        sex: PropTypes.string,
+        age: PropTypes.number
+      }
+      Person.defaultProps = {
+        sex: '男',
+        age: 18
+      }
+
+      ReactDOM.render(<Person name="jerry" age={21} />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

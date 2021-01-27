@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script type="text/babel">
+      class Weather extends React.Component {
+        // 初始化组件中的状态
+        // 构造器只会调用一次， 需要在构造器中初始化状态
+        constructor(props) {
+          super(props)
+          this.state = { isHot: true, wind: '大风' }
+          // 解决办法一
+          // 相当于给这个实例通过原型上的changeWeather函数经过bind之后给这个实例上重新挂载了一个changeWeather函数，当render函数中执行this.changeWeather的时候就会执行这个this.changeWeather，不会去找原型上的changeWeather。 这个this.changeWeather的this已经被bind了。所以在changeWeather函数中的this就指向了当前实例对象
+          this.changeWeather = this.changeWeather.bind(this)
+        }
+        changeWeather() {
+          // changeWeather放在哪里？ ---- Weather实例的原型对象上
+          // 1. 通过Weather实例调用changeWeather， changeWeather中的this就是Weather实例
+          //   console.log(this)
+          const isHot = this.state.isHot
+          // 状态必须通过setState进行更新，这是一个合并的操作，不是替换，也就是wind没有丢失
+          this.setState({ isHot: !isHot })
+        }
+        // render调用几次？ ---- 1+n次 ，1是初始化那次，n是状态更新的次数
+        render() {
+          return (
+            // 3. 这行代码只是将changeWeather这个function交给了onClick作为回调, 当点击的时候把这个函数从堆里面拉出来然后执行。那么这个changeWeather就不是通过Weather实例调用的，
+            // 4. 由于changeWeather是作为onClick的回调，所以不是通过实例调用的，是直接调用.
+            // 5. 类中的方法默认开启了局部的严格模式，所以changeWeather中的this指向了undefined
+            <h2 onClick={this.changeWeather}>
+              {/* 读取状态 */}
+              今天的天气{this.state.isHot ? '炎热' : '凉爽'}，而且有{this.state.wind}
+            </h2>
+          )
+        }
+      }
+      // 2. <Weather /> 这句话，就创建了Weather的实例对象
+      ReactDOM.render(<Weather />, document.getElementById('root'))
+    </script>
+  </body>
+</html>

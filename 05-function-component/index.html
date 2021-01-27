@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script type="text/babel">
+      function Fn() {
+        console.log(this) // babel开启严格模式， this指向undefined
+        return <h1>函数式组件</h1>
+      }
+      ReactDOM.render(<Fn />, document.getElementById('root'))
+      /*
+        执行了ReactDOM.render(<Fn />, ...) 发生的事情
+        1. react解析组件标签， 找到了Fn组件
+        2. 发现组件是使用函数定义的，随后调用该函数，将返回的虚拟dom转为真实dom， 随后呈现到页面中
+      */
+    </script>
+  </body>
+</html>

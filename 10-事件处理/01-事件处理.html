@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/react.development.js"></script>
+    <script src="../js/react-dom.development.js"></script>
+    <script src="../js/babel.min.js"></script>
+    <script src="../js/prop-types.js"></script>
+    <script type="text/babel">
+      class TestRef extends React.Component {
+        /*
+            (1).  通过onXxx属性指定事件处理函数(注意大小写)  
+                a. React使用的时自定义(合成)事件，而不是使用的原生DOM事件 --- 为了更好的兼容性
+                b. React中的事件是通过事件委托方式处理的(委托给组件最外层的元素) --- 为了高效
+            (2).  通过event.target得到发生事件的DOM元素对象(例如onBlur事件) ---- 不要过度使用ref
+        */
+        myRef = React.createRef()
+        showData() {
+          const input = this.myRef.current
+          alert(input.value)
+        }
+        handelBlur(e) {
+          const input1 = e.target
+          alert(input1.value)
+        }
+
+        render() {
+          return (
+            <div>
+              <input ref={this.myRef} type="text" />
+              <button onClick={() => this.showData()}>点击提示左侧数据</button>
+              <input type="text" onBlur={e => this.handelBlur(e)} />
+            </div>
+          )
+        }
+      }
+
+      ReactDOM.render(<TestRef name="张三" />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>
