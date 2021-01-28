@@ -19,14 +19,51 @@ class App extends Component {
       }
     ]
   }
+  addTodo = todo => {
+    this.setState({
+      todoList: [...this.state.todoList, todo]
+    })
+  }
+  deleteTodo = id => {
+    const newTodos = this.state.todoList.filter(todo => id !== todo.id)
+    this.setState({
+      todoList: newTodos
+    })
+  }
+  changeDone = (checked, id) => {
+    const newTodos = this.state.todoList.map(todo => {
+      if (todo.id === id) {
+        todo.done = checked
+      }
+      return todo
+    })
+    this.setState({
+      todoList: newTodos
+    })
+  }
+  changeAllTodo = checked => {
+    const newTodos = this.state.todoList.map(todo => {
+      todo.done = checked
+      return todo
+    })
+    this.setState({
+      todoList: newTodos
+    })
+  }
+  clearDoneTodo = () => {
+    const newsTodo = this.state.todoList.filter(todo => !todo.done)
+    this.setState({
+      todoList: newsTodo
+    })
+  }
   render() {
     const { todoList } = this.state
     return (
       <div className="todo-container">
         <div className="todo-wrap">
-          <Header />
-          <List todoList={todoList} />
-          <Footer />
+          <Header addTodo={this.addTodo} />
+          <List todoList={todoList} deleteTodo={this.deleteTodo} changeDone={this.changeDone} />
+          <Footer todoList={todoList} changeAllTodo={this.changeAllTodo} clearDoneTodo={this.clearDoneTodo} />
         </div>
       </div>
     )
