@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/17.0.1/react.development.js"></script>
+    <script src="../js/17.0.1/react-dom.development.js"></script>
+    <script src="../js/17.0.1/babel.min.js"></script>
+    <script type="text/babel">
+      class Test extends React.Component {
+        state = {
+          students: [
+            { id: 1, name: '张三' },
+            { id: 2, name: '李四' }
+          ]
+        }
+        addStu() {
+          this.setState({
+            // 如果是向后push则没有影响， 没有效率问题，也没有动态dom问题
+            // students: [...this.state.students, { id: this.state.students.length + 1, name: '小王' }]
+            students: [
+              { id: this.state.students.length + 1, name: '小王' + this.state.students.length + 1 },
+              ...this.state.students
+            ]
+          })
+        }
+        render() {
+          return (
+            <div>
+              <h1>新闻列表</h1>
+              <input type="text" />
+              <ul>
+                {this.state.students.map((item, index) => (
+                  <li key={item.id}>
+                    {item.name} <input type="text" />{' '}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={() => this.addStu()}>添加一个人</button>
+            </div>
+          )
+        }
+      }
+      ReactDOM.render(<Test a={1} />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

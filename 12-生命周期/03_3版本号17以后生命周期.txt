@@ -1,0 +1,39 @@
+1. 在react17以后
+    componentWillReceiveProps ==> UNSAFE_componentWillReceiveProps
+    componentWillMount ==> UNSAFE_componentWillMount
+    componentWillUpdate ==> UNSAFE_componentWillUpdate
+    这三个钩子可能会被弃用，在17后以后 虽然还能用 但是如果不加上UNSAFE_前缀则会报警告。也就是说这三个钩子最好别用
+2. react17以后新增的钩子
+    https://react.docschina.org/docs/react-component.html#static-getderivedstatefromprops
+    getDerivedStateFromProps (通过props得到派生的state)
+        1. 这个函数需要使用static进行标记
+        2. A valid state object (or null) must be returned(这个钩子必须return 一个null 或者 状态对象)
+            如果return null则没任何影响，如果return 一个对象，则这个对象会和state对象进行合并。 而且return 的这个对象不可以被setState修改
+        3. 这个钩子的参数是props，也就是传递过来的数据， 第二个参数是state
+        4. 用途：此方法的用途较为罕见，即state的值在任何情况下都取决于props
+
+    getSnapshotBeforeUpdate (获取更新之前的快照)
+        1. 该钩子的参数是(preProps, preState)
+        2. 该钩子的返回值是componentDidUpdate钩子的第三个参数
+            componentDidUpdate(preProps, preState, data) ==>  data是getSnapshotBeforeUpdate返回的值
+            该钩子的返回值是 snapshot 的值(或 null).  snapshot的值可为任意有效值
+        3. 官方： 此用法并不常见，但它可能出现在 UI 处理中，如需要以特殊方式处理滚动位置的聊天线程等。 该钩子能让组件能在发生更改之前从 DOM 中捕获一些信息（例如，滚动位置）
+
+3.  componentDidUpdate(a, b)
+    该钩子不是react17以后新增的，但是这里要提一下，该钩子有两个参数a是preProps， b是preState(此次更新前上一次的state)
+
+
+生命周期的三个阶段（新）
+    1. 初始化阶段: 由ReactDOM.render()触发---初次渲染
+        1.	constructor()
+        2.	getDerivedStateFromProps 
+        3.	render()
+        4.	componentDidMount()
+	2. 更新阶段: 由组件内部this.setSate()或父组件重新render触发
+        1.	getDerivedStateFromProps
+        2.	shouldComponentUpdate()
+        3.	render()
+        4.	getSnapshotBeforeUpdate
+        5.	componentDidUpdate()
+	3. 卸载组件: 由ReactDOM.unmountComponentAtNode()触发
+        1.	componentWillUnmount()

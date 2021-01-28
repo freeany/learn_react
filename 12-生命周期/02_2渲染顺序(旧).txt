@@ -1,0 +1,37 @@
+1. 对于02_1生命周期(旧)的渲染顺序
+初始化：
+Father constructor
+Father componentWillMount
+Father render
+Son constructor
+Son componentWillMount
+Son render
+Son componentDidMount
+Father componentDidMount
+父组件的数据通过setState发生了变化，但是此数据变化和子组件没关系
+Father shouldComponentUpdate
+Father componentWillUpdate
+Father render
+Son componentWillReceiveProps  // 第一次不会调用
+Son shouldComponentUpdate
+Son componentWillUpdate
+Son render
+Son componentDidUpdate
+Father componentDidUpdate
+父组件的数据通过setState发生了变化，但是此数据变化和子组件有关系， 经过测试与上面的一样
+如果是由 this.forceUpdate触发更新则不用走shouldComponentUpdate钩子
+
+
+1. 初始化阶段: 由ReactDOM.render()触发---初次渲染
+        1.	constructor()
+        2.	componentWillMount()
+        3.	render()
+        4.	componentDidMount()
+2. 更新阶段: 由组件内部this.setSate()或父组件重新render触发
+        1.	shouldComponentUpdate()  // 如果是由forceUpdate触发更新则不用走这个钩子
+        2.	componentWillUpdate()
+        3.	render()
+        4.	componentDidUpdate()
+3. 卸载组件: 由ReactDOM.unmountComponentAtNode()触发
+        1.	componentWillUnmount()
+

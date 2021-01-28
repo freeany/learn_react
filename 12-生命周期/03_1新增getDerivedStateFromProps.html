@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/17.0.1/react.development.js"></script>
+    <script src="../js/17.0.1/react-dom.development.js"></script>
+    <script src="../js/17.0.1/babel.min.js"></script>
+    <script type="text/babel">
+      class Father extends React.Component {
+        // 定义constructor
+        constructor(props) {
+          super(props)
+          console.log('Father constructor')
+        }
+        shouldComponentUpdate() {
+          console.log('Father shouldComponentUpdate')
+          return true
+        }
+        componentDidUpdate() {
+          console.log('Father componentDidUpdate')
+        }
+        componentDidMount() {
+          console.log('Father componentDidMount')
+        }
+        static getDerivedStateFromProps(props, state) {
+          console.log('Father getDerivedStateFromProps', props, state)
+          // return props
+          return null
+        }
+        // 定义状态
+        state = { count: 0 }
+        // count+1
+        addCount() {
+          this.setState({
+            count: this.state.count + 1,
+            a: 200 // 不会改变
+          })
+        }
+        render() {
+          console.log('Father render')
+          return (
+            <div>
+              <h1>aa{this.state.a}</h1>
+              <h1>当前的数量为{this.state.count}</h1>
+              <button onClick={() => this.addCount()}>count+1</button>
+            </div>
+          )
+        }
+      }
+      ReactDOM.render(<Father a={12} />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

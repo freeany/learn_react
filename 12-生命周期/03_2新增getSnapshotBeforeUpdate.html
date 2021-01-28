@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <div id="root1"></div>
+    <div id="root2"></div>
+    <script src="../js/17.0.1/react.development.js"></script>
+    <script src="../js/17.0.1/react-dom.development.js"></script>
+    <script src="../js/17.0.1/babel.min.js"></script>
+    <style>
+      .list {
+        height: 180px;
+        overflow: auto;
+        background-color: skyblue;
+      }
+      .item {
+        height: 30px;
+      }
+    </style>
+    <script type="text/babel">
+      class Test extends React.Component {
+        componentDidUpdate(preProps, preState, data) {
+          // console.log(preProps, preState, data)
+          // console.log('Father componentDidUpdate')
+
+          // this.ul.scrollTop随时会被更改，可能是代码更改，也可能是用户手动拉动滚动条更改。
+          // this.ul.scrollHeight更新后的scrollHeight   data是更新前的scrollHeight
+          // 每次更新都会添加一行数据， 所以让scrollTop一直累加
+          this.ul.scrollTop += this.ul.scrollHeight - data
+        }
+        componentDidMount() {
+          setInterval(() => {
+            this.setState({
+              news: ['新闻' + (this.state.news.length + 1), ...this.state.news]
+            })
+          }, 1000)
+        }
+
+        getSnapshotBeforeUpdate(preProps, preState) {
+          return this.ul.scrollHeight
+        }
+        state = { news: [] }
+
+        render() {
+          return (
+            <div>
+              <h1>新闻列表</h1>
+              <ul className="list" ref={c => (this.ul = c)}>
+                {this.state.news.map((item, index) => (
+                  <li className="item" key={index}>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )
+        }
+      }
+      ReactDOM.render(<Test a={1} />, document.getElementById('root2'))
+    </script>
+  </body>
+</html>

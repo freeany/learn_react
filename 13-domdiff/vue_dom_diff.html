@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="./js/vue.js"></script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script>
+      Vue.component('test', {
+        data: function () {
+          return {
+            arr: ['张三', '里斯']
+          }
+        },
+        methods: {
+          add() {
+            this.arr.unshift('小王' + this.arr.length + 1)
+          }
+        },
+        template: `
+            <div>
+                <ul>
+                    <li v-for="(item, index) in arr" :key="index">{{item}}<input /></li>
+                </ul>
+                <button @click="add">添加</button>    
+            </div>
+            `
+      })
+      new Vue({
+        data: {},
+
+        template: `
+            <test></test>
+        `
+      }).$mount('#app')
+    </script>
+  </body>
+</html>
