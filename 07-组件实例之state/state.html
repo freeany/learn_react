@@ -18,7 +18,7 @@
         }
         changeWeather() {
           // changeWeather放在哪里？ ---- Weather实例的原型对象上
-          // 1. 通过Weather实例调用changeWeather， changeWeather中的this就是Weather实例
+          // 2. 通过Weather实例调用changeWeather， changeWeather中的this就是Weather实例
           console.log(this)
         }
         render() {
@@ -26,8 +26,8 @@
             // 3. 这行代码只是将changeWeather这个function交给了onClick作为回调, 当点击的时候把这个函数从堆里面拉出来然后执行。那么这个changeWeather就不是通过Weather实例调用的，
             // 4. 由于changeWeather是作为onClick的回调，所以不是通过实例调用的，是直接调用.
             // 5. 类中的方法默认开启了局部的严格模式，所以changeWeather中的this指向了undefined
+            /* 1. 执行事件 */
             <h2 onClick={this.changeWeather}>
-              {/* 读取状态 */}
               今天的天气{this.state.isHot ? '炎热' : '凉爽'}，而且有{this.state.wind}
             </h2>
           )
